@@ -48,6 +48,9 @@ func (h *Handler) Add(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	req.User = c.MustGet("username").(string)
+
 	if err := h.s.Add(req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -70,6 +73,8 @@ func (h *Handler) Update(c *gin.Context) {
 		return
 	}
 	req.ID = id
+	req.User = c.MustGet("username").(string)
+
 	if err := h.s.Update(req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -92,6 +97,8 @@ func (h *Handler) Delete(c *gin.Context) {
 		return
 	}
 	req.ID = id
+	req.User = c.MustGet("username").(string)
+
 	if err := h.s.Delete(req); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
